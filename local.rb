@@ -62,6 +62,14 @@ module Local
     close_connection
   end
 
+  def unbind
+    if @conn
+      @conn.close_connection
+    else
+      puts "connection not established"
+    end
+  end
+
   private
 
   REPLY = Hash[{

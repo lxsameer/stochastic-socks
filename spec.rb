@@ -67,7 +67,7 @@ describe [Local, Server] do
       Process.kill :KILL, @servers
       Process.kill :KILL, @httpd
     end
-    sleep 0.3 # wait for servers to startup
+    sleep 1 # wait for servers to startup
   end
 
   after :all do
@@ -75,10 +75,12 @@ describe [Local, Server] do
     Process.kill :KILL, @httpd
   end
 
-  it "transmission" do
-    url = '127.0.0.1:8083/spec.rb'
-    b = `curl -s #{url}`
-    a = `curl -s #{url} --socks5 127.0.0.1:#{CONFIG['local_port']}`
-    assert_equal b.size, a.size
+  %w[127.0.0.1:8083/spec.rb baidu.com https://www.google-analytics.com/ga.js].each do |url|
+    it "transmission #{url}" do
+      b = `curl -s #{url}`
+      a = `curl -s #{url} --socks5 127.0.0.1:#{CONFIG['local_port']}`
+      assert_equal b.size, a.size
+      assert_equal b, a
+    end
   end
 end
