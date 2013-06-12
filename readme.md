@@ -8,7 +8,7 @@ A delimiter is inserted after the ciphered data chunk, it helps decoding and may
 
 # Install
 
-Requires [Ruby](ruby-lang.org) 1.9+ and a BSD / Linux server
+Requires [Ruby](http://ruby-lang.org) 1.9+ and a BSD / Linux server
 
 ```bash
 gem ins zscan
