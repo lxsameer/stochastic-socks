@@ -8,24 +8,25 @@ A delimiter is inserted after the ciphered data chunk, it helps decoding and may
 
 # Install
 
-Requires [Ruby](ruby-lang.org) 1.9+
+Requires [Ruby](ruby-lang.org) 1.9+ and a BSD / Linux server
 
 ```bash
 gem ins zscan
 gem ins eventmachine
 cp config.yml.example config.yml
+# edit config
 vi config.yml
 ```
 
 # Use
 
-You need a BSD or Linux server
+On server
 
 ```bash
 ruby server.rb
 ```
 
-Then on local
+On local
 
 ```bash
 ruby local.rb
