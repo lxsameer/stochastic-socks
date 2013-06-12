@@ -19,7 +19,7 @@ vi config.yml
 
 # Use
 
-You need a server
+You need a BSD or Linux server
 
 ```bash
 ruby server.rb
