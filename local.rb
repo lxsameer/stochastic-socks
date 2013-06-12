@@ -17,10 +17,10 @@ class LocalConn < EventMachine::Connection
     @c = Coder.new
   end
 
-  def send_data data
+  def send_enc_data data
     return if data.empty?
     @c.encode data do |seg|
-      super(seg) if !seg.empty?
+      send_data(seg) if !seg.empty?
     end
   end
 
@@ -54,15 +54,16 @@ module Local
       end
     else
       # tunneling
-      @conn.send_data data
+      @conn.send_enc_data data
     end
   rescue
     puts [$!, $!.backtrace]
+    @conn.close_connection
     close_connection
   end
 
   def unbind
-    # puts 'unbind'
+    @conn.close_connection
   end
 
   private
@@ -112,8 +113,8 @@ module Local
       puts "#{cmd}: #{host}:#{port}"
       @conn = EventMachine.connect CONFIG['server'], CONFIG['server_port'], LocalConn
       @conn.server = self
-      @conn.send_data "#{host}:#{port}\n"
-      @conn.send_data @data.rest
+      @conn.send_enc_data "#{host}:#{port}\n"
+      @conn.send_enc_data @data.rest
       @data = nil
       Fiber.yield
     when 2, 3 # bind, udp
@@ -134,7 +135,9 @@ module Local
   end
 end
 
-EventMachine.run do
-  puts "starting socks5 at #{CONFIG['local_port']}"
-  EventMachine.start_server '127.0.0.1', CONFIG['local_port'], Local
+if __FILE__ == $PROGRAM_NAME
+  EM.run do
+    puts "starting socks5 at #{CONFIG['local']}:#{CONFIG['local_port']}"
+    EM.start_server CONFIG['local'], CONFIG['local_port'], Local
+  end
 end

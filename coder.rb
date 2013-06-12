@@ -2,7 +2,11 @@
 require "openssl"
 require "yaml"
 
-CONFIG = YAML.load_file File.dirname(__FILE__) + '/config.yml'
+if $config
+  CONFIG = $config
+else
+  CONFIG = YAML.load_file File.dirname(__FILE__) + '/config.yml'
+end
 KEY_LEN = CONFIG['cipher'][/\d+/].to_i / 8
 IV_MAX = 36 ** KEY_LEN
 CONFIG['key'] = CONFIG['key'].ljust(KEY_LEN, '*')[0...KEY_LEN]
@@ -36,10 +40,12 @@ class Coder
   def decode data
     @buf << data
     while (i = @buf.index XTEXT)
-      @decoder.iv = @buf[0...KEY_LEN]
-      yield @decoder.update(@buf[KEY_LEN...i])
+      raise 'i < key_len' if i < KEY_LEN
+      @decoder.iv = @buf.byteslice 0...KEY_LEN
+      yield @decoder.update @buf.byteslice KEY_LEN...i
       yield @decoder.final
-      @buf = @buf[(i + XTEXT.bytesize)...-1]
+      @buf = @buf.byteslice (i + XTEXT.bytesize)...-1
+      @buf = '' unless @buf
     end
   end
 end

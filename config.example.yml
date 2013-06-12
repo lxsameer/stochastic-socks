@@ -4,6 +4,9 @@ cipher: aes-256-cbc
 # used in cipher
 key: nopassword
 
+# set to 0.0.0.0 to share
+local: 'localhost'
+
 # socks5 port
 local_port: 1234
 

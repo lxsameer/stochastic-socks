@@ -1,6 +1,7 @@
 # Install
 
 ```bash
+gem ins zscan
 gem ins eventmachine
 cp config.yml.example config.yml
 vi config.yml
@@ -22,4 +23,15 @@ ruby local.rb
 
 # Test
 
-Prepare config.yml and `gem ins rspec`, then `ruby coder_spec.rb`.
+Prepare gems used by test
+
+```bash
+gem ins rspec
+gem ins pry
+```
+
+Then
+
+```bash
+ruby spec.rb
+```
