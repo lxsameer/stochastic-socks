@@ -74,7 +74,8 @@ module Local
     host_unreachable: 4,
     cmd_not_supported: 7,
     atype_not_supported: 8
-  }.map{|k, v| [k, "\x05\x00\x00\x01#{[v].pack 'C'}\x00\x00\x00\x00\x00\x00"] }]
+  }.map{|k, v| [k, ("\x05#{[v].pack 'C'}\x00\x01" + "\x00\x00\x00\x00\x00\x00")] }]
+                   #  ver  rep           rsv atyp     ip              port
 
   def greeting
     wait 2

@@ -76,7 +76,6 @@ describe [Local, Server] do
   end
 
   it "transmission" do
-    pending
     url = '127.0.0.1:8083/spec.rb'
     b = `curl -s #{url}`
     a = `curl -s #{url} --socks5 127.0.0.1:#{CONFIG['local_port']}`

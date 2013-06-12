@@ -38,7 +38,7 @@ class Server < EventMachine::Connection
         @conn = EM.connect host, (port && !port.empty? ? port.to_i : 80), ServerConn
         @conn.server = self
         @buf = @buf.byteslice (i+1)..-1
-        @conn.send_data @buf if @buf
+        @conn.send_data @buf if @buf and !@buf.empty?
         @buf = nil
       end
     else
