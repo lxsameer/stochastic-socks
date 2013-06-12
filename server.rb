@@ -39,15 +39,15 @@ class Server < EventMachine::Connection
   def receive_data data
     if @buf
       @c.decode data do |seg|
-        @buf << seg if !seg.empty?
+        @buf << seg
       end
-      if i = @buf.index("\n")
-        host, port = @buf.byteslice(0...i).strip.split(':')
-        LOGGER.info "#{host}:#{port}"
-        @conn = EM.connect host, (port && !port.empty? ? port.to_i : 80), ServerConn
+      host, rest = @buf.split "\n", 2
+      if rest
+        domain, port = host.split ':'
+        LOGGER.info host
+        @conn = EM.connect domain, (port && !port.empty? ? port.to_i : 80), ServerConn
         @conn.server = self
-        @buf = @buf.byteslice (i+1)..-1
-        @conn.send_data @buf if @buf and !@buf.empty?
+        @conn.send_data rest if !rest.empty?
         @buf = nil
       end
     else
