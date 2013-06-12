@@ -62,10 +62,6 @@ module Local
     close_connection
   end
 
-  def unbind
-    @conn.close_connection
-  end
-
   private
 
   REPLY = Hash[{
