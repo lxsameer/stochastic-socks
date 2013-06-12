@@ -62,7 +62,7 @@ class Server < EventMachine::Connection
   end
 
   def unbind
-    @conn.close_connection
+    @conn.close_connection if @conn
   end
 end
 
