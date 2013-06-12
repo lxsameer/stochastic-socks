@@ -55,7 +55,7 @@ class Server < EventMachine::Connection
     end
   rescue
     LOGGER.error [$!, $!.backtrace]
-    @conn.close_connection
+    @conn.close_connection if @conn
     close_connection
   end
 
