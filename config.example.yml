@@ -1,0 +1,13 @@
+# make sure there's a "128" or "256" in the name
+cipher: aes-256-cbc
+
+# used in cipher
+key: nopassword
+
+# socks5 port
+local_port: 1234
+
+# remote server ip or domain
+server: 1.2.3.4
+
+server_port: 8080
