@@ -4,7 +4,7 @@ cipher: aes-256-cbc
 # used in cipher
 key: nopassword
 
-# set to 0.0.0.0 to share
+# set to 0.0.0.0 if you want to share
 local: 'localhost'
 
 # socks5 port
@@ -14,3 +14,6 @@ local_port: 1234
 server: 1.2.3.4
 
 server_port: 8080
+
+# delimiter string, to split ciphered data chunks
+delim: 学习十八大精神建设和谐社会

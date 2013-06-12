@@ -11,7 +11,8 @@ $config = {
   'key' => 'nopassword',
   'local_port' => 8081,
   'server' => '127.0.0.1',
-  'server_port' => 8082
+  'server_port' => 8082,
+  'delim' => 'Lovely Mädchen'
 }
 
 require_relative "coder"

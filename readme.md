@@ -1,4 +1,14 @@
+# Intro
+
+Socks 5 tunnel with a bit crypto / obsfucation.
+
+For every data chunk, a random initial vector is generated, which grants the stochastic behavior.
+
+A delimiter is inserted after the ciphered data chunk, it helps decoding and may be used to perform [poison attack](http://arxiv.org/pdf/1206.6389.pdf) on machine learning routers in the future.
+
 # Install
+
+Requires [Ruby](ruby-lang.org) 1.9+
 
 ```bash
 gem ins zscan
@@ -9,13 +19,13 @@ vi config.yml
 
 # Use
 
-Server
+You need a server
 
 ```bash
 ruby server.rb
 ```
 
-Local
+Then on local
 
 ```bash
 ruby local.rb

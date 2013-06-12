@@ -3,7 +3,7 @@ require "openssl"
 require "yaml"
 
 if $config
-  CONFIG = $config
+  CONFIG = $config # for test
 else
   CONFIG = YAML.load_file File.dirname(__FILE__) + '/config.yml'
 end
@@ -12,9 +12,10 @@ IV_MAX = 36 ** KEY_LEN
 CONFIG['key'] = CONFIG['key'].ljust(KEY_LEN, '*')[0...KEY_LEN]
 CONFIG['local_port'] = CONFIG['local_port'].to_i
 CONFIG['server_port'] = CONFIG['server_port'].to_i
+raise "delimiter too short, need at least 12 bytes: #{CONFIG['delim']}" if CONFIG['delim'].size < 12
 
 class PlainCoder
-  XTEXT = "学习<十八大精神>,建设|和谐社会|".force_encoding('utf-8').encode('gbk').force_encoding('binary')
+  DELIM = CONFIG['delim'].force_encoding('utf-8').encode('gb18030').force_encoding('binary')
 
   def initialize
     @buf = ''
@@ -22,13 +23,13 @@ class PlainCoder
 
   def encode data
     yield data
-    yield XTEXT
+    yield CONFIG['text']
   end
 
   def decode data
     @buf << data
     loop do
-      fore, rest = @buf.split(XTEXT, 2)
+      fore, rest = @buf.split(DELIM, 2)
       break unless rest
       yield fore
       @buf = rest
@@ -56,13 +57,13 @@ class Coder < PlainCoder
     yield iv
     yield @encoder.update(data)
     yield @encoder.final
-    yield XTEXT
+    yield DELIM
   end
 
   def decode data
     @buf << data
     loop do
-      fore, rest = @buf.split XTEXT, 2
+      fore, rest = @buf.split DELIM, 2
       break unless rest
       @decoder.iv = fore.byteslice 0...KEY_LEN
       yield @decoder.update fore.byteslice KEY_LEN..-1
