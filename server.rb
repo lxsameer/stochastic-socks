@@ -32,6 +32,8 @@ class Server < EventMachine::Connection
     @c.encode data do |seg|
       send_data(seg) if !seg.empty?
     end
+  rescue
+    LOGGER.error [$!, $!.backtrace]
   end
 
   def receive_data data
