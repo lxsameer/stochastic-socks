@@ -1,6 +1,13 @@
 # coding: binary
 require_relative "coder"
 require "eventmachine"
+require "logger"
+
+if __FILE__ == $PROGRAM_NAME
+  LOGGER = Logger.new File.dirname(__FILE__) + '/log'
+else
+  LOGGER = Logger.new $stdout
+end
 
 class ServerConn < EventMachine::Connection
   attr_accessor :server
@@ -34,7 +41,7 @@ class Server < EventMachine::Connection
       end
       if i = @buf.index("\n")
         host, port = @buf.byteslice(0...i).strip.split(':')
-        puts "connect: #{host}:#{port}"
+        LOGGER.info "#{host}:#{port}"
         @conn = EM.connect host, (port && !port.empty? ? port.to_i : 80), ServerConn
         @conn.server = self
         @buf = @buf.byteslice (i+1)..-1
@@ -47,7 +54,7 @@ class Server < EventMachine::Connection
       end
     end
   rescue
-    puts [$!, $!.backtrace]
+    LOGGER.error [$!, $!.backtrace]
     @conn.close_connection
     close_connection
   end
@@ -58,8 +65,9 @@ class Server < EventMachine::Connection
 end
 
 if __FILE__ == $PROGRAM_NAME
+  Process.daemon
   EM.run do
-    puts "starting server at 0.0.0.0:#{CONFIG['server_port']}"
+    LOGGER.info "starting server at 0.0.0.0:#{CONFIG['server_port']}"
     EM.start_server '0.0.0.0', CONFIG['server_port'], Server
   end
 end

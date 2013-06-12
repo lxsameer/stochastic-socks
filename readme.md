@@ -12,7 +12,7 @@ vi config.yml
 Server
 
 ```bash
-nohup ruby server.rb &
+ruby server.rb
 ```
 
 Local
