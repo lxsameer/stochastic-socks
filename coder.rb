@@ -13,8 +13,30 @@ CONFIG['key'] = CONFIG['key'].ljust(KEY_LEN, '*')[0...KEY_LEN]
 CONFIG['local_port'] = CONFIG['local_port'].to_i
 CONFIG['server_port'] = CONFIG['server_port'].to_i
 
-class Coder
-  XTEXT = "学习十八大精神,建设和谐社会".force_encoding('utf-8').encode('gbk').force_encoding('binary')
+class PlainCoder
+  XTEXT = "学习<十八大精神>,建设|和谐社会|".force_encoding('utf-8').encode('gbk').force_encoding('binary')
+
+  def initialize
+    @buf = ''
+  end
+
+  def encode data
+    yield data
+    yield XTEXT
+  end
+
+  def decode data
+    @buf << data
+    loop do
+      fore, rest = @buf.split(XTEXT, 2)
+      break unless rest
+      yield fore
+      @buf = rest
+    end
+  end
+end
+
+class Coder < PlainCoder
 
   def initialize
     @buf = '' # for decode state
@@ -39,13 +61,13 @@ class Coder
 
   def decode data
     @buf << data
-    while (i = @buf.index XTEXT)
-      raise 'i < key_len' if i < KEY_LEN
-      @decoder.iv = @buf.byteslice 0...KEY_LEN
-      yield @decoder.update @buf.byteslice KEY_LEN...i
+    loop do
+      fore, rest = @buf.split XTEXT, 2
+      break unless rest
+      @decoder.iv = fore.byteslice 0...KEY_LEN
+      yield @decoder.update fore.byteslice KEY_LEN..-1
       yield @decoder.final
-      @buf = @buf.byteslice (i + XTEXT.bytesize)...-1
-      @buf = '' unless @buf
+      @buf = rest
     end
   end
 end
