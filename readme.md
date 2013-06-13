@@ -1,6 +1,6 @@
 # Intro
 
-Socks 5 tunnel with a bit crypto / obsfucation.
+Socks 5 tunnel with a bit crypto / obfuscation.
 
 For every data chunk, a random initial vector is generated, which grants the stochastic behavior.
 
@@ -8,7 +8,7 @@ A delimiter is inserted after the ciphered data chunk, it helps decoding and may
 
 # Install
 
-Requires [Ruby](http://ruby-lang.org) 1.9+ and a BSD / Linux server
+Requires [Ruby](http://ruby-lang.org) 1.9+ and a OS X / BSD / Linux server
 
 ```bash
 gem ins zscan
@@ -34,7 +34,7 @@ ruby local.rb
 
 # Test
 
-Prepare gems used by test
+Prepare gems
 
 ```bash
 gem ins rspec
