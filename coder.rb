@@ -8,13 +8,13 @@ else
   CONFIG = YAML.load_file File.dirname(__FILE__) + '/config.yml'
 end
 KEY_LEN = CONFIG['cipher'][/\d+/].to_i / 8
-IV_MAX = 36 ** KEY_LEN
 CONFIG['key'] = CONFIG['key'].ljust(KEY_LEN, '*')[0...KEY_LEN]
 CONFIG['local_port'] = CONFIG['local_port'].to_i
 CONFIG['server_port'] = CONFIG['server_port'].to_i
 raise "delimiter too short, need at least 12 bytes: #{CONFIG['delim']}" if CONFIG['delim'].size < 12
 
 class PlainCoder
+  IV_MAX = 36 ** KEY_LEN
   DELIM = CONFIG['delim'].force_encoding('utf-8').encode('gb18030').force_encoding('binary')
 
   def initialize

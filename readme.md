@@ -8,7 +8,7 @@ A delimiter is inserted after the ciphered data chunk, it helps decoding and may
 
 # Install
 
-Requires [Ruby](http://ruby-lang.org) 1.9+ and a OS X / BSD / Linux server
+Requires [Ruby](http://ruby-lang.org) 1.9.2+ and a OS X / BSD / Linux server
 
 ```bash
 gem ins zscan
@@ -16,6 +16,14 @@ gem ins eventmachine
 cp config.yml.example config.yml
 # edit config
 vi config.yml
+```
+
+Available ciphers:
+
+```
+aes-128-cbc aes-128-ecb
+aes-192-cbc aes-192-ecb
+aes-256-cbc aes-256-ecb
 ```
 
 # Use
@@ -46,3 +54,7 @@ Then
 ```bash
 ruby spec.rb
 ```
+
+# Hacking the transport layer
+
+You can change `coder.rb`, reimplement encode / decode with your own cipher scheme.

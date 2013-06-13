@@ -1,4 +1,4 @@
-# make sure there's a "128" or "256" in the name
+# openssl cipher method
 cipher: aes-256-cbc
 
 # used in cipher
