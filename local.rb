@@ -130,7 +130,7 @@ module Local
     end
   end
 
-  def wait n
+  def wait n # bytes
     Fiber.yield until @data.rest_bytesize >= n
   end
 
