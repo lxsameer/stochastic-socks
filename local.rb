@@ -37,7 +37,7 @@ end
 
 module Local
   def post_init
-    @data = ZScan.new ''.b
+    @data = ZScan.new ''
     @f = Fiber.new do
       greeting
       loop{ do_cmd }
