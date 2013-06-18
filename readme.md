@@ -6,13 +6,15 @@ For every data chunk, a random initial vector is generated, which grants the sto
 
 A delimiter is inserted after the ciphered data chunk, it helps decoding and may be used to perform [poison attack](http://arxiv.org/pdf/1206.6389.pdf) on machine learning routers in the future.
 
-It is in principle very similar to [shadowsocks](https://github.com/clowwindy/shadowsocks) but with only 1/3 LOC because it's Ruby. And it's easier to hack the encoding scheme for your own purpose.
+It is in principle very similar to [shadowsocks](https://github.com/clowwindy/shadowsocks) but with only 1/3 LOC because it's Ruby. And it's easier to change the cipher scheme for your own purpose.
 
 # Install
 
-Requires [Ruby](http://ruby-lang.org) 1.9.2+ and a OS X / BSD / Linux server
+Requires [Ruby](http://ruby-lang.org) 1.9.2+ and an OS X / BSD / Linux server
 
 ```bash
+git clone git@github.com:luikore/stochastic-socks.git
+cd stochastic-socks
 gem ins zscan
 gem ins eventmachine
 cp config.yml.example config.yml
@@ -59,4 +61,4 @@ ruby spec.rb
 
 # Hacking the transport layer
 
-You can change `coder.rb`, reimplement encode / decode with your own cipher scheme.
+You can change `coder.rb`, reimplement encode/decode with your own cipher scheme.
