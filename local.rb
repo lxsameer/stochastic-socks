@@ -141,6 +141,7 @@ module Local
 end
 
 if __FILE__ == $PROGRAM_NAME
+  $0 = 'stochastic-socks local'
   EM.run do
     puts "starting socks5 at #{CONFIG['local']}:#{CONFIG['local_port']}"
     EM.start_server CONFIG['local'], CONFIG['local_port'], Local
