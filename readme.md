@@ -13,7 +13,7 @@ It is in principle very similar to [shadowsocks](https://github.com/clowwindy/sh
 Requires [Ruby](http://ruby-lang.org) 1.9.2+ and an OS X / BSD / Linux server
 
 ```bash
-git clone git@github.com:luikore/stochastic-socks.git
+git clone https://github.com/luikore/stochastic-socks.git
 cd stochastic-socks
 gem ins zscan
 gem ins eventmachine
