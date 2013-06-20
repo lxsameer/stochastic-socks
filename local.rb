@@ -142,6 +142,16 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   $0 = 'stochastic-socks local'
+
+  # http://stackoverflow.com/questions/6874404/change-iterm2-tab-title-dynamically-for-ruby-rails
+  if ENV['TERM_PROGRAM'] == 'iTerm.app'
+    print "\033];stochastic-socks local\007" # evil: can not change back
+    trap :INT do
+      puts "\rbye~"
+      exit!
+    end
+  end
+
   EM.run do
     puts "starting socks5 at #{CONFIG['local']}:#{CONFIG['local_port']}"
     EM.start_server CONFIG['local'], CONFIG['local_port'], Local
