@@ -141,11 +141,14 @@ module Local
 end
 
 if __FILE__ == $PROGRAM_NAME
-  $0 = 'stochastic-socks local'
+  $0 = 'stochastic-socks'
 
-  # http://stackoverflow.com/questions/6874404/change-iterm2-tab-title-dynamically-for-ruby-rails
-  if ENV['TERM_PROGRAM'] == 'iTerm.app'
-    print "\033];stochastic-socks local\007" # evil: can not change back
+  # terminal title
+  # http://www.faqs.org/docs/Linux-mini/Xterm-Title.html#ss3.1
+  if ENV['TERM'] =~ /\Ascreen*/
+    print "\ek#$0\e\\"
+  elsif ENV['TERM'] =~ /\A(xterm|rxvt)/ or ENV['TERM_PROGRAM'] == 'iTerm.app'
+    print "\e]1;#$0\a"
     trap :INT do
       puts "\rbye~"
       exit!
