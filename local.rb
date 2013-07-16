@@ -4,6 +4,7 @@
 #   http://tools.ietf.org/html/rfc1928
 #   http://tools.ietf.org/html/rfc1929
 #   http://en.wikipedia.org/wiki/SOCKS
+#   http://en.wikipedia.org/wiki/Endianness#Endianness_in_networking
 
 require "eventmachine"
 require "ipaddr"
