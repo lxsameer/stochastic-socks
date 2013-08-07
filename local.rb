@@ -149,8 +149,11 @@ if __FILE__ == $PROGRAM_NAME
   if ENV['TERM'] =~ /\Ascreen*/
     print "\ek#$0\e\\"
   elsif ENV['TERM'] =~ /\A(xterm|rxvt)/ or ENV['TERM_PROGRAM'] == 'iTerm.app'
+    print "\e]6;1;bg;red;brightness;255\a"
+    print "\e]6;1;bg;green;brightness;255\a"
     print "\e]1;#$0\a"
     trap :INT do
+      print "\e]6;1;bg;*;default\a"
       puts "\rbye~"
       exit!
     end
