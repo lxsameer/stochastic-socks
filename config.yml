@@ -1,0 +1,19 @@
+# openssl cipher method
+cipher: aes-256-cbc
+
+# used in cipher
+key: nopassword
+
+# set to 0.0.0.0 if you want to share
+local: 0.0.0.0
+
+# socks5 port
+local_port: 9191
+
+# remote server ip or domain
+server: 'franky.lxsameer.com'
+
+server_port: 9191
+
+# delimiter string, to split ciphered data chunks
+delim: 学习十八大精神建设和谐社会
